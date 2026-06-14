@@ -10,9 +10,11 @@ services:
     region: frankfurt
     plan: free
     rootDir: server
-    # --include=dev so devDeps (typescript, prisma, tsx) install despite NODE_ENV=production
-    buildCommand: npm install --include=dev && npx prisma generate && npm run build
-    startCommand: npx prisma migrate deploy && node dist/index.js
+    # --include=dev so devDeps (typescript, prisma, tsx) install despite NODE_ENV=production.
+    # migrate deploy runs in build (not start) — keeps startup fast and off the health-check
+    # timer, and avoids advisory-lock flakiness over Neon's PgBouncer pooler on every boot.
+    buildCommand: npm install --include=dev && npx prisma generate && npm run build && npx prisma migrate deploy
+    startCommand: node dist/index.js
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
