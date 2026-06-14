@@ -16,11 +16,14 @@ enum Role {
 }
 
 enum Category {
-  KEYBOARD
-  KEYCAP
-  SWITCH
+  PHONE
+  LAPTOP
+  AUDIO
+  TV
+  GAMING
+  SMART_HOME
+  WEARABLE
   ACCESSORY
-  DESKMAT
 }
 
 enum OrderStatus {
@@ -68,6 +71,8 @@ model Product {
   description String
   // price stored in cents (integer) to avoid float issues
   price       Int
+  // original (pre-discount) price in cents; null = no discount
+  oldPrice    Int?
   category    Category
   images      String[]
   stock       Int      @default(0)

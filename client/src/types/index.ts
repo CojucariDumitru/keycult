@@ -1,4 +1,12 @@
-export type Category = 'KEYBOARD' | 'KEYCAP' | 'SWITCH' | 'ACCESSORY' | 'DESKMAT';
+export type Category =
+  | 'PHONE'
+  | 'LAPTOP'
+  | 'AUDIO'
+  | 'TV'
+  | 'GAMING'
+  | 'SMART_HOME'
+  | 'WEARABLE'
+  | 'ACCESSORY';
 
 export type Role = 'USER' | 'ADMIN';
 
@@ -18,6 +26,7 @@ export interface Product {
   brand: string;
   description: string;
   price: number; // cents
+  oldPrice?: number | null; // cents
   category: Category;
   images: string[];
   stock: number;

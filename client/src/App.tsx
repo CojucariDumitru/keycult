@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Account from './pages/Account';
 import Orders from './pages/Orders';
+import Wishlist from './pages/Wishlist';
 import NotFound from './pages/NotFound';
 
 import AdminDashboard from './pages/admin/Dashboard';
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: '/shop', element: <Shop /> },
       { path: '/product/:slug', element: <ProductDetail /> },
       { path: '/cart', element: <Cart /> },
+      { path: '/wishlist', element: <Wishlist /> },
       { path: '/order-success', element: <OrderSuccess /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },

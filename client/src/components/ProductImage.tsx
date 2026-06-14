@@ -10,7 +10,7 @@ interface Props {
 /** Branded fallback so a broken/missing image never shows a busted icon. */
 function placeholder(name?: string) {
   const text = encodeURIComponent((name || 'KEYCULT').slice(0, 22));
-  return `https://placehold.co/800x800/0f0f11/7c5cff/png?text=${text}&font=montserrat`;
+  return `https://placehold.co/800x800/eef0f6/5838f0/png?text=${text}&font=montserrat`;
 }
 
 export default function ProductImage({ src, alt, name, className }: Props) {

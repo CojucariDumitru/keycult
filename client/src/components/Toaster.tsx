@@ -19,11 +19,11 @@ export default function Toaster() {
             initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, x: 40 }}
-            className="card pointer-events-auto flex items-center gap-3 px-4 py-3 shadow-2xl"
+            className="card pointer-events-auto flex items-center gap-3 px-4 py-3 shadow-pop"
           >
             {icons[t.type]}
-            <span className="flex-1 text-sm text-zinc-100">{t.message}</span>
-            <button onClick={() => dismiss(t.id)} className="text-zinc-500 hover:text-white">
+            <span className="flex-1 text-sm text-fg">{t.message}</span>
+            <button onClick={() => dismiss(t.id)} className="text-muted hover:text-fg">
               <X size={15} />
             </button>
           </motion.div>

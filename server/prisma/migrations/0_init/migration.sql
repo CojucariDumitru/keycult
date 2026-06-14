@@ -2,7 +2,7 @@
 CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
 
 -- CreateEnum
-CREATE TYPE "Category" AS ENUM ('KEYBOARD', 'KEYCAP', 'SWITCH', 'ACCESSORY', 'DESKMAT');
+CREATE TYPE "Category" AS ENUM ('PHONE', 'LAPTOP', 'AUDIO', 'TV', 'GAMING', 'SMART_HOME', 'WEARABLE', 'ACCESSORY');
 
 -- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('PENDING', 'PAID', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'REFUNDED');
@@ -39,6 +39,7 @@ CREATE TABLE "products" (
     "brand" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
+    "oldPrice" INTEGER,
     "category" "Category" NOT NULL,
     "images" TEXT[],
     "stock" INTEGER NOT NULL DEFAULT 0,

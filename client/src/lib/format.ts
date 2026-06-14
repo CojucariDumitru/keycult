@@ -24,14 +24,34 @@ export function formatDateTime(iso: string): string {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  KEYBOARD: 'Keyboards',
-  KEYCAP: 'Keycaps',
-  SWITCH: 'Switches',
+  PHONE: 'Phones & Tablets',
+  LAPTOP: 'Laptops & PCs',
+  AUDIO: 'Audio',
+  TV: 'TV & Monitors',
+  GAMING: 'Gaming',
+  SMART_HOME: 'Smart Home',
+  WEARABLE: 'Wearables',
   ACCESSORY: 'Accessories',
-  DESKMAT: 'Deskmats',
 };
 
 export const categoryLabel = (c: string) => CATEGORY_LABELS[c] ?? c;
+
+export const CATEGORY_ORDER = [
+  'PHONE',
+  'LAPTOP',
+  'AUDIO',
+  'TV',
+  'GAMING',
+  'SMART_HOME',
+  'WEARABLE',
+  'ACCESSORY',
+];
+
+/** Percent off given current and original price (both in cents). */
+export function discountPercent(price: number, oldPrice?: number | null): number {
+  if (!oldPrice || oldPrice <= price) return 0;
+  return Math.round(((oldPrice - price) / oldPrice) * 100);
+}
 
 export function cn(...classes: (string | false | null | undefined)[]): string {
   return classes.filter(Boolean).join(' ');

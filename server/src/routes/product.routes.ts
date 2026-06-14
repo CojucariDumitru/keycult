@@ -9,7 +9,7 @@ import { uploadImage, isCloudinaryConfigured } from '../lib/cloudinary';
 
 const router = Router();
 
-const CATEGORIES = ['KEYBOARD', 'KEYCAP', 'SWITCH', 'ACCESSORY', 'DESKMAT'] as const;
+const CATEGORIES = ['PHONE', 'LAPTOP', 'AUDIO', 'TV', 'GAMING', 'SMART_HOME', 'WEARABLE', 'ACCESSORY'] as const;
 
 // GET /api/products  — list with filters, search, sort, pagination
 router.get(
@@ -80,7 +80,7 @@ router.get(
     const products = await prisma.product.findMany({
       where: { featured: true },
       orderBy: { rating: 'desc' },
-      take: 4,
+      take: 8,
     });
     res.json({ products });
   })
@@ -128,6 +128,7 @@ const productSchema = z.object({
   brand: z.string().min(1),
   description: z.string().min(10),
   price: z.number().int().positive(), // cents
+  oldPrice: z.number().int().positive().nullable().optional(),
   category: z.enum(CATEGORIES),
   images: z.array(z.string().url()).min(1),
   stock: z.number().int().min(0),

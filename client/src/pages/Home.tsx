@@ -1,131 +1,109 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight, Truck, ShieldCheck, Sparkles, Headphones } from 'lucide-react';
-import { useFeatured, useCategories } from '../lib/hooks';
-import { categoryLabel } from '../lib/format';
+import { ArrowRight, Flame } from 'lucide-react';
+import { useFeatured, useProducts } from '../lib/hooks';
+import { CATEGORIES } from '../lib/categories';
+import { discountPercent } from '../lib/format';
+import HeroSlider from '../components/HeroSlider';
 import ProductCard from '../components/ProductCard';
 import { Spinner } from '../components/ui';
 
-const perks = [
-  { icon: Truck, title: 'Free shipping', desc: 'On orders over $150' },
-  { icon: ShieldCheck, title: '2-year warranty', desc: 'On every build' },
-  { icon: Sparkles, title: 'Curated catalog', desc: 'Only the good stuff' },
-  { icon: Headphones, title: 'Enthusiast support', desc: 'We actually type' },
-];
+const BRANDS = ['Apple', 'Samsung', 'Sony', 'LG', 'Dell', 'ASUS', 'Logitech', 'Bose', 'Google', 'Nintendo'];
+
+function SectionHeader({ title, to, icon }: { title: string; to: string; icon?: React.ReactNode }) {
+  return (
+    <div className="mb-5 flex items-end justify-between">
+      <h2 className="flex items-center gap-2 font-display text-xl font-extrabold text-fg md:text-2xl">
+        {icon} {title}
+      </h2>
+      <Link to={to} className="flex items-center gap-1 text-sm font-semibold text-brand hover:underline">
+        View all <ArrowRight size={15} />
+      </Link>
+    </div>
+  );
+}
 
 export default function Home() {
   const { data: featured, isLoading } = useFeatured();
-  const { data: cats } = useCategories();
+  const { data: latest } = useProducts({ sort: 'newest', limit: 24 });
+
+  const deals = (latest?.products ?? [])
+    .filter((p) => discountPercent(p.price, p.oldPrice) > 0)
+    .slice(0, 10);
 
   return (
-    <div>
+    <div className="container-wide py-6">
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="container-wide grid items-center gap-10 py-20 md:grid-cols-2 md:py-28">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="badge bg-accent/15 text-accent-soft">New · KEYCULT No. 2/65</span>
-            <h1 className="mt-5 font-display text-5xl font-bold leading-[1.05] tracking-tight text-white md:text-6xl">
-              Keyboards built to be <span className="text-gradient">obsessed</span> over.
-            </h1>
-            <p className="mt-5 max-w-md text-lg leading-relaxed text-zinc-400">
-              Premium mechanical keyboards, artisan keycaps, and tactile switches — engineered for the
-              sound, the feel, and the ritual of typing.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/shop" className="btn-primary">
-                Shop all <ArrowRight size={16} />
-              </Link>
-              <Link to="/shop?category=KEYBOARD" className="btn-ghost">
-                Explore keyboards
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="relative"
-          >
-            <div className="aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 bg-ink-850">
-              <img
-                src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=1100&q=80"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src =
-                    'https://placehold.co/1100x825/0f0f11/7c5cff/png?text=KEYCULT&font=montserrat';
-                }}
-                alt="Featured keyboard"
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <div className="card absolute -bottom-5 -left-5 hidden px-5 py-4 shadow-2xl sm:block">
-              <p className="text-xs text-zinc-500">Starting at</p>
-              <p className="font-display text-xl font-bold text-white">$99</p>
-            </div>
-          </motion.div>
+      <section className="grid gap-4 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <HeroSlider />
         </div>
-      </section>
-
-      {/* Perks */}
-      <section className="container-wide grid grid-cols-2 gap-4 md:grid-cols-4">
-        {perks.map((p) => (
-          <div key={p.title} className="card flex items-center gap-3 p-4">
-            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent/15 text-accent-soft">
-              <p.icon size={18} />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-white">{p.title}</p>
-              <p className="text-xs text-zinc-500">{p.desc}</p>
-            </div>
-          </div>
-        ))}
+        <div className="hidden grid-rows-2 gap-4 lg:grid">
+          <Link to="/shop?category=LAPTOP" className="relative overflow-hidden rounded-2xl bg-brand-gradient p-6 text-white">
+            <p className="text-xs font-semibold uppercase tracking-wide text-white/80">Work & play</p>
+            <p className="mt-1 font-display text-2xl font-extrabold">Laptops for every pro</p>
+            <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold">Shop now <ArrowRight size={15} /></span>
+          </Link>
+          <Link to="/shop?category=WEARABLE" className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6">
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand">Stay connected</p>
+            <p className="mt-1 font-display text-2xl font-extrabold text-fg">Smartwatches</p>
+            <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand">Shop now <ArrowRight size={15} /></span>
+          </Link>
+        </div>
       </section>
 
       {/* Categories */}
-      <section className="container-wide mt-20">
-        <div className="mb-6 flex items-end justify-between">
-          <h2 className="font-display text-2xl font-bold text-white">Shop by category</h2>
-          <Link to="/shop" className="text-sm text-accent-soft hover:underline">
-            View all
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
-          {(cats?.categories ?? []).map((c) => (
+      <section className="mt-10">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+          {CATEGORIES.map((c) => (
             <Link
-              key={c.category}
-              to={`/shop?category=${c.category}`}
-              className="card group flex flex-col items-center justify-center gap-1 px-4 py-8 text-center transition hover:border-accent/40"
+              key={c.key}
+              to={`/shop?category=${c.key}`}
+              className="group flex flex-col items-center gap-2 rounded-2xl border border-line bg-surface p-4 text-center shadow-card transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-pop"
             >
-              <span className="font-display text-base font-semibold text-white group-hover:text-accent-soft">
-                {categoryLabel(c.category)}
+              <span className="grid h-12 w-12 place-items-center rounded-xl bg-brand/10 text-brand transition group-hover:bg-brand group-hover:text-brand-fg">
+                <c.icon size={22} />
               </span>
-              <span className="text-xs text-zinc-500">{c.count} items</span>
+              <span className="text-xs font-semibold text-fg">{c.label}</span>
             </Link>
           ))}
         </div>
       </section>
 
+      {/* Deals */}
+      {deals.length > 0 && (
+        <section className="mt-12">
+          <SectionHeader title="Deals of the week" to="/shop?sort=price-asc" icon={<Flame size={20} className="text-deal" />} />
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+            {deals.slice(0, 5).map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Promo banners */}
+      <section className="mt-12 grid gap-4 md:grid-cols-2">
+        <Link to="/shop?category=AUDIO" className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-600 to-emerald-400 p-8 text-white">
+          <p className="text-sm font-semibold uppercase tracking-wide text-white/80">Up to 20% off</p>
+          <p className="mt-2 font-display text-3xl font-extrabold">Premium audio sale</p>
+          <p className="mt-1 max-w-xs text-sm text-white/85">Headphones & speakers from the best brands.</p>
+          <span className="btn mt-5 bg-white text-fg hover:bg-white/90">Shop audio <ArrowRight size={15} /></span>
+        </Link>
+        <Link to="/shop?category=GAMING" className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-rose-600 to-orange-400 p-8 text-white">
+          <p className="text-sm font-semibold uppercase tracking-wide text-white/80">New arrivals</p>
+          <p className="mt-2 font-display text-3xl font-extrabold">Gaming HQ</p>
+          <p className="mt-1 max-w-xs text-sm text-white/85">Consoles, monitors & accessories.</p>
+          <span className="btn mt-5 bg-white text-fg hover:bg-white/90">Shop gaming <ArrowRight size={15} /></span>
+        </Link>
+      </section>
+
       {/* Featured */}
-      <section className="container-wide mt-20">
-        <div className="mb-6 flex items-end justify-between">
-          <div>
-            <h2 className="font-display text-2xl font-bold text-white">Featured</h2>
-            <p className="text-sm text-zinc-500">Hand-picked by the KEYCULT team</p>
-          </div>
-          <Link to="/shop" className="text-sm text-accent-soft hover:underline">
-            See more
-          </Link>
-        </div>
+      <section className="mt-12">
+        <SectionHeader title="Featured products" to="/shop" />
         {isLoading ? (
-          <div className="flex justify-center py-16">
-            <Spinner className="h-7 w-7 text-accent" />
-          </div>
+          <div className="flex justify-center py-16"><Spinner className="h-7 w-7 text-brand" /></div>
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {(featured?.products ?? []).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
@@ -133,19 +111,22 @@ export default function Home() {
         )}
       </section>
 
-      {/* CTA */}
-      <section className="container-wide mt-24">
-        <div className="card relative overflow-hidden px-8 py-14 text-center">
-          <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent" />
-          <div className="relative">
-            <h2 className="font-display text-3xl font-bold text-white">Find your endgame board.</h2>
-            <p className="mx-auto mt-3 max-w-md text-zinc-400">
-              From budget builds to flagship aluminum, there's a KEYCULT for every desk.
-            </p>
-            <Link to="/shop" className="btn-primary mt-7">
-              Start shopping <ArrowRight size={16} />
-            </Link>
-          </div>
+      {/* New arrivals */}
+      <section className="mt-12">
+        <SectionHeader title="New arrivals" to="/shop?sort=newest" />
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {(latest?.products ?? []).slice(0, 8).map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
+      </section>
+
+      {/* Brands */}
+      <section className="mt-14 overflow-hidden rounded-2xl border border-line bg-surface py-6">
+        <div className="flex animate-marquee gap-12 whitespace-nowrap">
+          {[...BRANDS, ...BRANDS].map((b, i) => (
+            <span key={i} className="font-display text-xl font-bold text-muted/70">{b}</span>
+          ))}
         </div>
       </section>
     </div>

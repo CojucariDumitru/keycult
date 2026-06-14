@@ -1,6 +1,6 @@
-# KEYCULT — Premium Mechanical Keyboard Store
+# KEYCULT — Electronics, Unlocked
 
-> A full-stack e-commerce portfolio project: React + TypeScript storefront, Express + Prisma API, Stripe checkout, transactional email, and a complete admin panel.
+> A full-stack electronics marketplace (portfolio project): React + TypeScript storefront with **light & dark themes**, Express + Prisma API, Stripe checkout, transactional email, and a complete admin panel.
 
 <p>
   <img alt="React" src="https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=white">
@@ -64,10 +64,14 @@ Checkout uses **Stripe test mode** — no real money moves. On the Stripe page e
 ## ✨ Features
 
 **Storefront**
-- Animated landing page with featured products & category navigation
-- Full catalog with **search, category filters, sorting, and pagination**
+- Marketplace homepage: hero slider, category tiles, deals, promo banners, brand strip
+- **Light & dark themes** with a no-flash toggle (persisted)
+- Mega-menu category navigation + search with category scope
+- 36-product electronics catalog (phones, laptops, audio, TV, gaming, smart home, wearables, accessories)
+- Catalog with **filter sidebar (category + price), search, sorting, and pagination**
+- Product cards with discount %, ratings, old→new pricing, and wishlist
 - Product detail pages with image gallery, specs, stock state, and related items
-- Persistent cart (localStorage) with slide-out drawer and full cart page
+- Persistent cart **and wishlist** (localStorage) with slide-out cart drawer
 - **Stripe Checkout** with shipping collection and free-shipping threshold
 - Order confirmation page that polls for webhook fulfillment
 - Customer accounts: register, login, profile, order history
@@ -128,7 +132,7 @@ cd server
 cp .env.example .env        # then fill in DATABASE_URL, Stripe keys, etc.
 npm install
 npx prisma migrate deploy   # create tables
-npm run seed                # 20 products + admin + customer
+npm run seed                # 36 products + admin + customer
 npm run dev                 # http://localhost:5000
 ```
 

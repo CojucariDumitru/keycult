@@ -13,6 +13,8 @@ export interface ProductFilters {
   sort?: string;
   page?: number;
   limit?: number;
+  minPrice?: number;
+  maxPrice?: number;
 }
 
 function toQuery(filters: ProductFilters): string {
@@ -22,6 +24,8 @@ function toQuery(filters: ProductFilters): string {
   if (filters.sort) p.set('sort', filters.sort);
   if (filters.page) p.set('page', String(filters.page));
   if (filters.limit) p.set('limit', String(filters.limit));
+  if (filters.minPrice) p.set('minPrice', String(filters.minPrice));
+  if (filters.maxPrice) p.set('maxPrice', String(filters.maxPrice));
   const s = p.toString();
   return s ? `?${s}` : '';
 }
