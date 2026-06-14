@@ -1,0 +1,48 @@
+# Render Blueprint for the KEYCULT API.
+#
+# SECURITY: secret values use `sync: false` (entered in the Render dashboard
+# or set via the Render API) and JWT secrets use `generateValue: true`.
+# No live credentials are committed to the repository.
+services:
+  - type: web
+    name: keycult-api
+    runtime: node
+    region: frankfurt
+    plan: free
+    rootDir: server
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npx prisma migrate deploy && node dist/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_EXPIRES_IN
+        value: 15m
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+      - key: EMAIL_FROM
+        value: orders@keycult.com
+      - key: CLOUDINARY_CLOUD_NAME
+        value: dozr400tl
+      - key: STRIPE_PUBLISHABLE_KEY
+        value: pk_test_51Ti2kxA30IFzVptj8aeKMfSvamK2yDwtUXgFy5odFWDy1fZnETSZMYxhW2mhzLvaKTAOEcapCzYuIra7G9buw3E300kAJVl52t
+      # --- auto-generated ---
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      # --- secrets: set in dashboard / via API (sync:false keeps them out of git) ---
+      - key: DATABASE_URL
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: CLIENT_URL
+        sync: false
