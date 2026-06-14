@@ -17,8 +17,8 @@
 
 | | URL |
 |---|---|
-| **Frontend** | `https://<your-project>.vercel.app` |
-| **API** | `https://keycult-api.onrender.com` |
+| **Frontend** | https://keycult.vercel.app |
+| **API** | https://keycult-api.onrender.com |
 
 > ⚠️ The backend runs on Render's free tier. After ~15 min of inactivity it spins down — **the first request can take ~30–60 seconds** to wake up. Subsequent requests are fast.
 
